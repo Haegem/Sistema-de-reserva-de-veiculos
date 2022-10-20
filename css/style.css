@@ -1,0 +1,63 @@
+.container{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5% 5%;
+    border: 2px solid #4db6ac;
+}
+
+.botoes{
+    padding: 5%;
+}
+
+.botao-sair{
+    float: right;
+}
+
+.principal{
+    position: absolute;
+    margin: 5% 5%;
+    padding: 5% 15%;
+    border: 2px solid #4db6ac;
+}
+
+.table-usuarios{
+}
+
+.principal table{
+    margin-bottom: 5%;
+}
+
+.borda-padrao {
+    border: 2px solid #4db6ac;
+}
+
+.borda-verde {
+    border: 2px solid lightgreen;
+}
+
+.borda-vermelha {
+    border: 2px solid rgb(255, 59, 59);
+}
+
+.titulo-admin{
+    margin-left: 10%;
+    font-weight: bold;
+    color: #4db6ac;
+    font-size: 20px;
+}
+
+h1{
+    font-weight: bold;
+    color: #4db6ac;
+    font-size: 20px;
+}
+
+.waves-effect{
+    margin-top: 5%;
+}
+
+tbody tr:nth-child(odd){
+    background-color: #e0ffff;
+  }
