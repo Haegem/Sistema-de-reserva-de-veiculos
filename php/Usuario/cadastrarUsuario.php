@@ -1,8 +1,12 @@
 <?php
 //Será criado a session e ao verificar que a session não existe a página redireciona o mesmo para a index
 session_start();
-if ((!isset($_SESSION['usuario']) == true) and (!isset($_SESSION['senha']) == true)) {
-    header('location: ../index.php');
+$authToken = $_SESSION['authToken'];
+if ((!isset($_SESSION['usuario']) == true) && (!isset($_SESSION['senha']) == true)) {
+    header("Location: ../index.php");
+}else if($authToken != md5(date("Ymd") * 5)){
+    echo "<script>alert('Chave de seguranca invalida!');location.href=\"../index.php\";</script>";
+    die();
 }
 
 $logado = $_SESSION['usuario'];

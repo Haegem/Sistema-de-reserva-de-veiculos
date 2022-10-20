@@ -1,10 +1,15 @@
 <?php
 //Será criado a session e ao verificar que a session não existe a página redireciona o mesmo para a index
 session_start();
-if ((!isset($_SESSION['usuario']) == true) and (!isset($_SESSION['senha']) == true)) {
-    header('location: ../index.php');
+$authToken = $_SESSION['authToken'];
+if ((!isset($_SESSION['usuario']) == true) && (!isset($_SESSION['senha']) == true)) {
+    header("Location: ../index.php");
+}else if($authToken != md5(date("Ymd") * 5)){
+    echo "<script>alert('Chave de seguranca invalida!');location.href=\"../index.php\";</script>";
+    die();
 }
 
+//Repassando informações do usuário logado para as variaveis
 $logado = $_SESSION['usuario'];
 $logadoSenha = $_SESSION['senha'];
 
@@ -118,8 +123,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-
     <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../../css/materialize.min.css">
     <link rel="stylesheet" href="../../css/google-fonts.css">
     <link rel="stylesheet" href="../../css/style.css">
@@ -518,6 +523,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     </script>
 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="../../slick/slick.min.js"></script>
     <script src="../../js/slider.js"></script>
     <script src="../../js/main.js"></script>

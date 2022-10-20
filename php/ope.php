@@ -4,6 +4,7 @@ session_start();
 // as variáveis login e senha recebem os dados digitados na página anterior
 $usuario = $_POST['usuario'];
 $senha = $_POST['senha'];
+$authToken = $_POST['authToken'];
 
 //Importação de php
 require 'config.php';
@@ -19,6 +20,7 @@ $encontrado = $objClasses->encontrarUsuario($usuario, $senha);
 if ($encontrado == 0) {
     unset ($_SESSION['usuario']);
     unset ($_SESSION['senha']);
+    unset ($_SESSION['authToken']);
     echo "<script>alert('Login tem que ter entre 8 e 50 caracteres');
         location.href=\"index.php\";</script>";
     die();
@@ -27,6 +29,7 @@ if ($encontrado == 0) {
 else if ($encontrado == 1) {
     unset ($_SESSION['usuario']);
     unset ($_SESSION['senha']);
+    unset ($_SESSION['authToken']);
     echo "<script>alert('Senha tem que ter entre 8 e 50 caracteres');
         location.href=\"index.php\";</script>";
     die();
@@ -35,6 +38,7 @@ else if ($encontrado == 1) {
 else if ($encontrado == 2) {
     unset ($_SESSION['usuario']);
     unset ($_SESSION['senha']);
+    unset ($_SESSION['authToken']);
     echo "<script>alert('Registro não encontrado');location.href=\"index.php\";</script>";
     die();
 }
@@ -42,7 +46,7 @@ else if ($encontrado == 2) {
 else if ($encontrado == 3) {
     $_SESSION['usuario'] = $usuario;
     $_SESSION['senha'] = $senha;
-    $pegaUsuario = $objClasses->exibirUsuarioPorEmail($_POST['usuario']);
+    $_SESSION['authToken'] = $authToken;
     header("Location: admin.php");
     die();
 }
@@ -50,6 +54,7 @@ else if ($encontrado == 3) {
     à página principal*/ else {
     $_SESSION['usuario'] = $usuario;
     $_SESSION['senha'] = $senha;
+    $_SESSION['authToken'] = $authToken;
     header("Location: Reserva/principal.php");
     die();
 }

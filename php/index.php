@@ -29,13 +29,13 @@ $objClasses = new Classes($mysql);
 <body>
     <div class="container center">
         <h1>LOGIN SISTEMA RESERVA DE VEÍCULOS</h1>
-
         <!-- Formulário para preencher login e senha -->
         <form action="ope.php" method="post">
             <label for="usuario">LOGIN</label>
             <input type="email" name="usuario" id="usuario" required placeholder="Nome de usuário">
             <label for="senha">SENHA</label>
             <input type="password" name="senha" id="senha" required placeholder="Sua senha">
+            <input type="hidden" name="authToken" id="authToken" value="<?php echo md5(date("Ymd") * 5) ?>">
 
             <input type="submit" class="btn waves-effect waves-light" name="action" id="btnEntrar" value="ENTRAR">
         </form>
