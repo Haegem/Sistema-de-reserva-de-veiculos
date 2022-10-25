@@ -2,14 +2,14 @@
 //Será criado a session e ao verificar que a session não existe a página redireciona o mesmo para a index
 session_start();
 $authToken = $_SESSION['authToken'];
-if ((!isset($_SESSION['usuario']) == true) && (!isset($_SESSION['senha']) == true)) {
+if ((!isset($_SESSION['email']) == true) && (!isset($_SESSION['senha']) == true)) {
     header("Location: ../index.php");
 }else if($authToken != md5(date("Ymd") * 5)){
     echo "<script>alert('Chave de seguranca invalida!');location.href=\"../index.php\";</script>";
     die();
 }
 
-$logado = $_SESSION['usuario'];
+$logado = $_SESSION['email'];
 
 //Importação de php
 require '../config.php';
@@ -43,7 +43,6 @@ $reservas = $objClasses->exibirInfoReservas();
 <body>
     <div class="container center">
         <h1>ADMIN - RESERVAS</h1>
-
         <!-- Tabela com as informações de todas as reservas realizadas -->
         <table>
             <thead>
@@ -62,37 +61,41 @@ $reservas = $objClasses->exibirInfoReservas();
                         <td>
                             <!-- Retorna o nome do veículo -->
                             <p>
-                                <?php echo $reserva['nome_veiculo']; ?>
+                                <?php //$tudo adquire todas as informações da reserva referente ao id repassado como parâmetro
+                                $tudo = $objClasses->exibeTudo($reserva['id_veiculo']);
+                                echo $tudo['nome_veiculo']; ?>
                             </p>
                         </td>
                         <td>
                             <!-- Retorna a data de retirada do veículo referente a reserva realizada -->
                             <p>
                                 De:
-                                <?php echo (new DateTime($reserva['data_retirada']))->format('d/m/Y H:i:s'); ?>
+                                <?php echo (new DateTime($reserva['data_retirada_reserva']))->format('d/m/Y H:i:s'); ?>
                             </p>
                             <!-- Retorna a data de devolução do veículo referente a reserva realizada -->
                             <p>
                                 Até:
-                                <?php echo (new DateTime($reserva['data_devolucao']))->format('d/m/Y H:i:s'); ?>
+                                <?php echo (new DateTime($reserva['data_devolucao_reserva']))->format('d/m/Y H:i:s'); ?>
                             </p>
                         </td>
                         <td>
                             <!-- Retorna o motorista cadastrado na reserva -->
                             <p>
-                                <?php echo $reserva['motorista']; ?>
+                                <?php echo $reserva['motorista_reserva']; ?>
                             </p>
                         </td>
                         <td>
                             <!-- Retorna a área do usuário que cadastrou a reserva -->
                             <p>
-                                <?php echo $reserva['area']; ?>
+                                <?php //$tudo adquire todas as informações da reserva referente ao id repassado como parâmetro
+                                $tudo = $objClasses->exibeTudo($reserva['id_usuario']);
+                                echo $tudo['area_usuario']; ?>
                             </p>
                         </td>
                         <td>
                             <!-- Retorna o local de destino da reserva -->
                             <p>
-                                <?php echo $reserva['local_destino']; ?>
+                                <?php echo $reserva['local_destino_reserva']; ?>
                             </p>
                         </td>
                         <td>

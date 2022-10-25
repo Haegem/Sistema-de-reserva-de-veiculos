@@ -1,11 +1,11 @@
 <?php
 //Será criado a session e ao verificar que a session não existe a página redireciona o mesmo para a index
 session_start();
-if ((!isset($_SESSION['usuario']) == true) and (!isset($_SESSION['senha']) == true)) {
+if ((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
     header('location: ../index.php');
 }
 
-$logado = $_SESSION['usuario'];
+$logado = $_SESSION['email'];
 
 //Importação de php
 require '../config.php';
@@ -16,7 +16,7 @@ $objClasses = new Classes($mysql);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //$verificaNome recebe boolean de acordo com nome do veículo selecionado
-    $verificaNome = $objClasses->verificaExisteVeiculo($_POST['nome']);
+    $verificaNome = $objClasses->verificaExisteVeiculo($_POST['nome_veiculo']);
     
     //Caso não exista um veículo com o mesmo nome
     if ($verificaNome) {
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Cadastra no banco de dados um novo veículo com as informações preenchidas no formulário
         e armazena em $veiculo o retorno da função cadastrarVeiculo
         */
-        $veiculo = $objClasses->cadastrarVeiculo($_POST['nome'], $_POST['KM']);
+        $veiculo = $objClasses->cadastrarVeiculo($_POST['nome_veiculo'], $_POST['km_veiculo']);
         //Se o nome exceder 50 caracteres, retornará à página cadastrarVeiculo
         if ($veiculo == 0) {
             echo "<script>alert('Nome não pode exceder 50 caracteres');
@@ -76,10 +76,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Formulário para cadastrar um novo veículo -->
         <form action="cadastrarVeiculo.php" method="post">
-            <label for="nome">NOME</label>
-            <input type="text" name="nome" id="nome" required placeholder="Nome">
-            <label for="KM">KM</label>
-            <input type="text" name="KM" id="KM" required placeholder="KM" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+            <label for="nome_veiculo">NOME</label>
+            <input type="text" name="nome_veiculo" id="nome_veiculo" required placeholder="Nome">
+            <label for="km_veiculo">KM</label>
+            <input type="text" name="km_veiculo" id="km_veiculo" required placeholder="KM" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
             <input type="submit" class="btn waves-effect waves-light" name="action" id="btnCadastrar" value="CADASTRAR">
             <a href="veiculos.php" class="waves-effect waves-light btn">Voltar</a>
         </form>
@@ -87,8 +87,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script>
         //Declaração e atribuição de valor das variáveis
-        var nome = $("#nome");
-        var km = $('#KM');
+        var nome = $("#nome_veiculo");
+        var km = $('#km_veiculo');
 
         //Inicializador da página 
         $(function() {

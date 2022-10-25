@@ -1,34 +1,3 @@
-.container{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 5% 5%;
-    border: 2px solid #4db6ac;
-}
-
-.botoes{
-    padding: 5%;
-}
-
-.botao-sair{
-    float: right;
-}
-
-.principal{
-    position: absolute;
-    margin: 5% 5%;
-    padding: 5% 15%;
-    border: 2px solid #4db6ac;
-}
-
-.table-usuarios{
-}
-
-.principal table{
-    margin-bottom: 5%;
-}
-
 .borda-padrao {
     border: 2px solid #4db6ac;
 }
@@ -41,23 +10,54 @@
     border: 2px solid rgb(255, 59, 59);
 }
 
-.titulo-admin{
+.titulo-admin {
     margin-left: 10%;
     font-weight: bold;
     color: #4db6ac;
     font-size: 20px;
 }
 
-h1{
+h1 {
     font-weight: bold;
     color: #4db6ac;
     font-size: 20px;
 }
 
-.waves-effect{
-    margin-top: 5%;
+body {
+    background-color: #eee;
 }
 
-tbody tr:nth-child(odd){
-    background-color: #e0ffff;
-  }
+table th,
+table td {
+    text-align: center;
+}
+
+table tr:nth-child(even) {
+    background-color: #BEF2F5
+}
+
+.pagination li:hover {
+    cursor: pointer;
+}
+
+table tbody tr {
+    display: none;
+}
+
+.borda-card {
+    border: 2px solid #4db6ac;
+}
+
+.navbar-brand{
+    color: black;
+    font-weight: bold;
+}
+
+nav{
+    background-color: rgb(236, 236, 236);
+}
+
+span{
+    color: black;
+    font-weight: bold;
+}

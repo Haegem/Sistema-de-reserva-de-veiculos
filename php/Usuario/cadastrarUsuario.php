@@ -2,14 +2,14 @@
 //Será criado a session e ao verificar que a session não existe a página redireciona o mesmo para a index
 session_start();
 $authToken = $_SESSION['authToken'];
-if ((!isset($_SESSION['usuario']) == true) && (!isset($_SESSION['senha']) == true)) {
+if ((!isset($_SESSION['email']) == true) && (!isset($_SESSION['senha']) == true)) {
     header("Location: ../index.php");
 }else if($authToken != md5(date("Ymd") * 5)){
     echo "<script>alert('Chave de seguranca invalida!');location.href=\"../index.php\";</script>";
     die();
 }
 
-$logado = $_SESSION['usuario'];
+$logado = $_SESSION['email'];
 
 //Importação de php
 require '../config.php';
@@ -20,12 +20,12 @@ $objClasses = new Classes($mysql);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //$verificaEmail recebe boolean após verificar se o login digitado já existe no bd
-    $verificaEmail = $objClasses->verificaExisteUsuario($_POST['usuarioCad']);
+    $verificaEmail = $objClasses->verificaExisteUsuario($_POST['emailCad']);
 
     //Caso ainda não existir login no bd
     if ($verificaEmail) {
         //Se o checkbox para habilitar administrador ao usuário for selecionado, $habilitaAdm receberá boolean
-        if ($_POST['adm'] == null) {
+        if ($_POST['adm_reserva'] == null) {
             $habilitaAdm = 0;
         } else {
             $habilitaAdm = 1;
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         e armazena em $usuario o retorno da função cadastrarUsuario
         */
         $usuario = $objClasses->cadastrarUsuario(
-            $_POST['usuarioCad'],
+            $_POST['emailCad'],
             $_POST['senhaCad'],
             $_POST['nome'],
             $_POST['area'],
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             die();
         }
         //Se tudo estiver OK, informações serão registradas no bd e será retornado à página cadastrarUsuário
-        else if ($usuarioEditado == 4) {
+        else if ($usuario == 4) {
             header("Location: cadastrarUsuario.php");
             die();
         }
@@ -116,15 +116,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" name="nome" id="nome" required placeholder="Nome">
             <label for="area">ÁREA</label>
             <input type="text" name="area" id="area" required placeholder="Área">
-            <label for="usuarioCad">LOGIN</label>
-            <input type="email" name="usuarioCad" id="usuarioCad" required placeholder="E-mail">
+            <label for="emailCad">LOGIN</label>
+            <input type="email" name="emailCad" id="emailCad" required placeholder="E-mail">
             <label for="senhaCad">SENHA</label>
             <input type="password" name="senhaCad" id="senhaCad" required placeholder="Senha">
             <label for="confirmarSenha">REPETIR SENHA</label>
             <input type="password" name="confirmarSenha" id="confirmarSenha" required placeholder="Repita sua senha">
             <div>
-                <input type="checkbox" id="adm" name="adm" value="1">
-                <label for="adm">Habilitar administrador</label>
+                <input type="checkbox" id="adm_reserva" name="adm_reserva" value="1">
+                <label for="adm_reserva">Habilitar administrador</label>
             </div>
 
             <input type="submit" class="btn waves-effect waves-light" name="action" id="btnCadastrar" 
@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //Declaração e atribuição de valor das variáveis
         var nome = $("#nome");
         var area = $('#area');
-        var email = $("#usuarioCad");
+        var email = $("#emailCad");
         var senhaCad = $("#senhaCad");
         var confirmarSenha = $("#confirmarSenha");
 

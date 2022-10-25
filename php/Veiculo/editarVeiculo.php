@@ -1,11 +1,11 @@
 <?php
 //Será criado a session e ao verificar que a session não existe a página redireciona o mesmo para a index
 session_start();
-if ((!isset($_SESSION['usuario']) == true) and (!isset($_SESSION['senha']) == true)) {
+if ((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
     header('location: ../index.php');
 }
 
-$logado = $_SESSION['usuario'];
+$logado = $_SESSION['email'];
 
 //Importação de php
 require '../config.php';
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     Edita no banco de com as informações preenchidas no formulário de acordo com o id_veiculo 
     e armazena em $veiculoEditado o retorno da função editarVeiculo
     */
-    $veiculoEditado = $objClasses->editarVeiculo($_GET['id_veiculo'], $_POST['nome'], $_POST['km']);
+    $veiculoEditado = $objClasses->editarVeiculo($_GET['id_veiculo'], $_POST['nome_veiculo'], $_POST['km_veiculo']);
 
     //Se o nome exceder 50 caracteres, retornará à página editarVeiculo
     if ($veiculoEditado == 0) {
@@ -68,10 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Formulário para solicitar reserva -->
         <form action="editarVeiculo.php?id_veiculo=<?php echo $veiculo['id_veiculo'] ?>" method="POST">
-            <label for="nome">NOME</label>
-            <input type="text" name="nome" id="nome" value="<?php echo $veiculo['nome'] ?>">
-            <label for="km">KM</label>
-            <input type="text" name="km" id="km" value="<?php echo $veiculo['km'] ?>">
+            <label for="nome_veiculo">NOME</label>
+            <input type="text" name="nome_veiculo" id="nome_veiculo" value="<?php echo $veiculo['nome_veiculo'] ?>">
+            <label for="km_veiculo">KM</label>
+            <input type="text" name="km_veiculo" id="km_veiculo" value="<?php echo $veiculo['km_veiculo'] ?>">
 
             <input type="hidden" name="id_veiculo" value="<?php echo $veiculo['id_veiculo'] ?>" 
             class="btnEditar_<?php echo $veiculo['id_veiculo'] ?>  btn waves-effect waves-light" />
@@ -83,8 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script>
         //Declaração e atribuição de valor das variáveis
-        var nomeVeiculo = $("#nome");
-        var km = $("#km");
+        var nomeVeiculo = $("#nome_veiculo");
+        var km = $("#km_veiculo");
 
         //Inicializador da página 
         $(function() {

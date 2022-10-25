@@ -2,14 +2,14 @@
 //Será criado a session e ao verificar que a session não existe a página redireciona o mesmo para a index
 session_start();
 $authToken = $_SESSION['authToken'];
-if ((!isset($_SESSION['usuario']) == true) && (!isset($_SESSION['senha']) == true)) {
+if ((!isset($_SESSION['email']) == true) && (!isset($_SESSION['senha']) == true)) {
     header("Location: ../index.php");
 }else if($authToken != md5(date("Ymd") * 5)){
     echo "<script>alert('Chave de seguranca invalida!');location.href=\"../index.php\";</script>";
     die();
 }
 
-$logado = $_SESSION['usuario'];
+$logado = $_SESSION['email'];
 
 //Importação de php
 require '../config.php';
@@ -19,7 +19,7 @@ include '../Classes.php';
 $objClasses = new Classes($mysql);
 
 //$user adquire todas as informações do usuário referente ao id_usuarios repassado como parâmetro
-$user = $objClasses->exibirUsuario($_GET['id_usuarios']);
+$user = $objClasses->exibirUsuario($_GET['id_usuario']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     /*
@@ -27,47 +27,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     e armazena em $usuarioEditado o retorno da função editarUsuario
     */
     $usuarioEditado = $objClasses->editarUsuario(
-        $_GET['id_usuarios'],
-        $_POST['usuarioEdit'],
+        $_GET['id_usuario'],
+        $_POST['emailEdit'],
         $_POST['senhaEdit'],
-        $_POST['nome'],
-        $_POST['area'],
+        $_POST['nome_usuario'],
+        $_POST['area_usuario'],
         $_POST['confirmarSenha']
     );
 
     //Se o login não tiver entre 8 e 50 caracteres, retornará ao editarUsuario
     if ($usuarioEditado == 0) {
         echo "<script>alert('Login tem que ter entre 8 e 50 caracteres');
-        location.href=\"editarUsuario.php?id_usuarios=$user[id_usuarios]\";</script>";
+        location.href=\"editarUsuario.php?id_usuario=$user[id_usuario]\";</script>";
         die();
     }
     //Se a senha não tiver entre 8 e 50 caracteres, retornará ao editarUsuario
     else if ($usuarioEditado == 1) {
         echo "<script>alert('Senha tem que ter entre 8 e 50 caracteres');
-        location.href=\"editarUsuario.php?id_usuarios=$user[id_usuarios]\";</script>";
+        location.href=\"editarUsuario.php?id_usuario=$user[id_usuario]\";</script>";
         die();
     }
     //Se o nome exceder 100 caracteres, retornará à página editarUsuario
     else if ($usuarioEditado == 2) {
         echo "<script>alert('Nome não pode exceder 100 caracteres');
-        location.href=\"editarUsuario.php?id_usuarios=$user[id_usuarios]\";</script>";
+        location.href=\"editarUsuario.php?id_usuario=$user[id_usuario]\";</script>";
         die();
     }
     //Se a área exceder 50 caracteres, retornará à página editarUsuario
     else if ($usuarioEditado == 3) {
         echo "<script>alert('Área não pode exceder 50 caracteres');
-        location.href=\"editarUsuario.php?id_usuarios=$user[id_usuarios]\";</script>";
+        location.href=\"editarUsuario.php?id_usuario=$user[id_usuario]\";</script>";
         die();
     }
     //Se tudo estiver OK, informações serão atualizadas no bd e será retornado à página editarUsuario
     else if ($usuarioEditado == 4) {
-        header("Location: editarUsuario.php?id_usuarios=$user[id_usuarios]");
+        header("Location: editarUsuario.php?id_usuario=$user[id_usuario]");
         die();
     }
     //Se a senha e a confirmação da senha não forem iguais, retornará à editarUsuario
     else {
         echo "<script>alert('Senha e confirmação de senha não são iguais!');
-        location.href=\"editarUsuario.php?id_usuarios=$user[id_usuarios]\";</script>";
+        location.href=\"editarUsuario.php?id_usuario=$user[id_usuario]\";</script>";
         die();
     }
 }
@@ -98,22 +98,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Formulário para cadastrar um novo usuário, com as informações do usuário selecionadas, sendo
         carregadas do bd -->
-        <form action="editarUsuario.php?id_usuarios=<?php echo $user['id_usuarios'] ?>" method="POST">
+        <form action="editarUsuario.php?id_usuario=<?php echo $user['id_usuario'] ?>" method="POST">
             <label for="nome">NOME</label>
-            <input type="text" name="nome" id="nome" value="<?php echo $user['nome'] ?>">
+            <input type="text" name="nome" id="nome" value="<?php echo $user['nome_usuario'] ?>">
             <label for="area">ÁREA</label>
-            <input type="text" name="area" id="area" value="<?php echo $user['area'] ?>">
-            <label for="usuarioEdit">LOGIN</label>
-            <input type="email" name="usuarioEdit" id="usuarioEdit" value="<?php echo $user['usuario'] ?>">
+            <input type="text" name="area" id="area" value="<?php echo $user['area_usuario'] ?>">
+            <label for="emailEdit">LOGIN</label>
+            <input type="email" name="emailEdit" id="emailEdit" value="<?php echo $user['email_usuario'] ?>">
             <label for="senhaEdit">SENHA</label>
             <input type="password" name="senhaEdit" id="senhaEdit" required placeholder="Senha">
             <label for="confirmarSenha">REPETIR SENHA</label>
             <input type="password" name="confirmarSenha" id="confirmarSenha" required placeholder="Repita sua senha">
 
-            <input type="hidden" name="btnEditar_<?php echo $logado['usuario'] ?> 
-            value=<?php echo $logado['usuario'] ?>"
-            class="btnEditar_<?php echo $logado['usuario'] ?>  btn waves-effect waves-light" />
-            <button class="btnEditar_<?php echo $logado['usuario'] ?>  
+            <input type="hidden" name="btnEditar_<?php echo $logado['email'] ?> 
+            value=<?php echo $logado['email'] ?>"
+            class="btnEditar_<?php echo $logado['email'] ?>  btn waves-effect waves-light" />
+            <button class="btnEditar_<?php echo $logado['email'] ?>  
             btn waves-effect waves-light">EDITAR</button>
             <a href="../voltar.php" class="waves-effect waves-light btn">Voltar</a>
         </form>
@@ -121,9 +121,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script>
         //Declaração e atribuição de valor das variáveis
-        var nome = $("#nome");
-        var area = $('#area');
-        var usuarioEdit = $('#usuarioEdit');
+        var nome = $("#nome_usuario");
+        var area = $('#area_usuario');
+        var usuarioEdit = $('#emailEdit');
         var senhaEdit = $("#senhaEdit");
         var confirmarSenha = $("#confirmarSenha");
 

@@ -1,11 +1,11 @@
 <?php
 //Será criado a session e ao verificar que a session não existe a página redireciona o mesmo para a index
 session_start();
-if ((!isset($_SESSION['usuario']) == true) and (!isset($_SESSION['senha']) == true)) {
+if ((!isset($_SESSION['email']) == true) and (!isset($_SESSION['senha']) == true)) {
     header('location: ../index.php');
 }
 
-$logado = $_SESSION['usuario'];
+$logado = $_SESSION['email'];
 
 //Importação de php
 require '../config.php';
@@ -62,14 +62,14 @@ $veiculos = $objClasses->exibirVeiculos();
                             <td class="center">
                                 <p>
                                     <!-- Busca imagem em img de acordo com o nome do veículo -->
-                                    <img src="../../img/<?php echo $veiculo['nome'] ?>.jpg" height="50px" 
+                                    <img src="../../img/<?php echo $veiculo['nome_veiculo'] ?>.jpg" height="50px" 
                                     width="50px">
                                 </p>
                             </td>
                             <td class="center">
                                 <!-- Retorna o nome do veículo -->
                                 <p class="nomeVeiculo_<?php echo $veiculo['id_veiculo'] ?>">
-                                    <?php echo $veiculo['nome']; ?>
+                                    <?php echo $veiculo['nome_veiculo']; ?>
                                 </p>
                             </td>
                             <td class="center">
@@ -79,10 +79,10 @@ $veiculos = $objClasses->exibirVeiculos();
                                 $dispVeiculo recebe array com a informação disponibilidade de acordo 
                                 com nome do veículo passado como parâmetro
                                 */
-                                    $dispVeiculo = $objClasses->exibirDisponibilidade($veiculo['nome']);
+                                    $dispVeiculo = $objClasses->exibirDisponibilidade($veiculo['nome_veiculo']);
 
                                     //Caso veículo esteja disponível imagem verde na tela, se não imagem vermelha
-                                    if ($dispVeiculo['disponibilidade'] == 1) {
+                                    if ($dispVeiculo['disp_veiculo'] == 1) {
                                     ?>
                                 <p class="center">
                                     <img src="../../img/Disponivel.png" height="25px" width="25px">
@@ -101,7 +101,7 @@ $veiculos = $objClasses->exibirVeiculos();
                             <td class="center">
                                 <!-- Retorna o KM do veículo -->
                                 <p>
-                                    <?php echo $veiculo['km']; ?>
+                                    <?php echo $veiculo['km_veiculo']; ?>
                                 </p>
                             </td>
                             <td class="center">
@@ -112,7 +112,7 @@ $veiculos = $objClasses->exibirVeiculos();
                                     onclick="bloqueia('<?php echo $veiculo['id_veiculo'] ?>');">
                                     <?php
                                         //Caso veiculo esteja disponível, o botão terá valor BLOQUEAR
-                                        if($veiculo['disponibilidade'] == 1){
+                                        if($veiculo['disp_veiculo'] == 1){
                                             ?>
                                                 BLOQUEAR
                                             <?php
